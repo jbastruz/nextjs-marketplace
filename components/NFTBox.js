@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useWeb3Contract, useMoralis } from "react-moralis"
 import nftMarketplaceAbi from "../constants/NftMarketplace.json"
-import nftAbi from "../constants/BasicNft.json"
+import nftAbi from "../constants/Nft.json"
 import Image from "next/image"
 import { Card, useNotification } from "web3uikit"
 import { ethers } from "ethers"
@@ -31,12 +31,13 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
     const hideModal = () => setShowModal(false)
     const dispatch = useNotification()
 
+    //il faut remettre le bon ABI ici pour pouvoir utiliser la fonction
     const { runContractFunction: getTokenURI } = useWeb3Contract({
         abi: nftAbi,
         contractAddress: nftAddress,
         functionName: "tokenURI",
         params: {
-            tokenId: tokenId,
+            _tokenId: 0,
         },
     })
 
@@ -130,7 +131,7 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
                                         width="200"
                                     />
                                     <div className="font-bold">
-                                        {ethers.utils.formatUnits(price, "ether")} ETH
+                                        {ethers.utils.formatUnits(price, "ether")} AVAX
                                     </div>
                                 </div>
                             </div>
