@@ -3,7 +3,7 @@ import { useWeb3Contract, useMoralis } from "react-moralis"
 import nftMarketplaceAbi from "../constants/NftMarketplace.json"
 import nftAbi from "../constants/Nft.json"
 import Image from "next/image"
-import { Card, useNotification } from "web3uikit"
+import { Card, useNotification, CryptoLogos } from "web3uikit"
 import { ethers } from "ethers"
 import UpdateListingModal from "./UpdateListingModal"
 
@@ -27,6 +27,7 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
     const [imageURI, setImageURI] = useState("")
     const [tokenName, setTokenName] = useState("")
     const [tokenDescription, setTokenDescription] = useState("")
+    const [tokenAttributes, setTokenAttributes] = useState("")
     const [showModal, setShowModal] = useState(false)
     const hideModal = () => setShowModal(false)
     const dispatch = useNotification()
@@ -37,7 +38,7 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
         contractAddress: nftAddress,
         functionName: "tokenURI",
         params: {
-            _tokenId: 0,
+            _tokenId: tokenId,
         },
     })
 
@@ -65,6 +66,7 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
             setImageURI(imageURIURL)
             setTokenName(tokenURIResponse.name)
             setTokenDescription(tokenURIResponse.description)
+            setTokenAttributes(tokenURIResponse.attributes)
             // We could render the Image on our sever, and just call our sever.
             // For testnets & mainnet -> use moralis server hooks
             // Have the world adopt IPFS
@@ -116,9 +118,10 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
                         <Card
                             title={tokenName}
                             description={tokenDescription}
+                            tooltipText={tokenAttributes[2].value}
                             onClick={handleCardClick}
                         >
-                            <div className="p-2">
+                            <div className="p-4">
                                 <div className="flex flex-col items-end gap-2">
                                     <div>#{tokenId}</div>
                                     <div className="italic text-sm">
@@ -128,10 +131,16 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
                                         loader={() => imageURI}
                                         src={imageURI}
                                         height="200"
-                                        width="200"
+                                        width="400"
                                     />
                                     <div className="font-bold">
-                                        {ethers.utils.formatUnits(price, "ether")} AVAX
+                                        {ethers.utils.formatUnits(price, "ether")}
+                                        <CryptoLogos
+                                            bgColor="#000000"
+                                            chain="avalanche"
+                                            onClick={function noRefCheck() {}}
+                                            size="24px"
+                                        />
                                     </div>
                                 </div>
                             </div>

@@ -1,4 +1,5 @@
 import { useQuery, gql } from "@apollo/client"
+import { NFTBalance } from "web3uikit"
 
 const GET_ACTIVE_ITEMS = gql`
     {
@@ -16,5 +17,10 @@ const GET_ACTIVE_ITEMS = gql`
 export default function GraphExample() {
     const { loading, error, data } = useQuery(GET_ACTIVE_ITEMS)
     console.log(data)
-    return <div>Price:</div>
+    return (
+        <div>
+            hi
+            <NFTBalance address="0x8bD67Fb2A4112E94f5d54eDCDd239246c7ec30f7" chain="eth" />
+        </div>
+    )
 }
