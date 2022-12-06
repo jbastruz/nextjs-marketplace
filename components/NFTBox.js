@@ -119,7 +119,7 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
                             title={tokenName}
                             description={tokenDescription}
                             tooltipText={
-                                tokenAttributes[2].trait_type + ": " + tokenAttributes[2].value
+                                tokenAttributes[3].trait_type + ": " + tokenAttributes[3].value
                             }
                             onClick={handleCardClick}
                         >
@@ -136,13 +136,7 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
                                         width="400"
                                     />
                                     <div className="font-bold">
-                                        {ethers.utils.formatUnits(price, "ether")}
-                                        <CryptoLogos
-                                            bgColor="#000000"
-                                            chain="avalanche"
-                                            onClick={function noRefCheck() {}}
-                                            size="24px"
-                                        />
+                                        {ethers.utils.formatUnits(price, "ether")} AVAX
                                     </div>
                                 </div>
                             </div>
