@@ -118,7 +118,9 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
                         <Card
                             title={tokenName}
                             description={tokenDescription}
-                            tooltipText={tokenAttributes[2].value}
+                            tooltipText={
+                                tokenAttributes[2].trait_type + ": " + tokenAttributes[2].value
+                            }
                             onClick={handleCardClick}
                         >
                             <div className="p-4">
