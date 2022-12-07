@@ -20,7 +20,7 @@ export default function GraphExample() {
     return (
         <div>
             hi
-            <NFTBalance address="0x8bD67Fb2A4112E94f5d54eDCDd239246c7ec30f7" chain="eth" />
+            <NFTBalance address="0x8bD67Fb2A4112E94f5d54eDCDd239246c7ec30f7" chain="fuji" />
         </div>
     )
 }

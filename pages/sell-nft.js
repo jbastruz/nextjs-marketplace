@@ -4,13 +4,14 @@ import styles from "../styles/Home.module.css"
 import { Form, useNotification, Button } from "web3uikit"
 import { useMoralis, useWeb3Contract } from "react-moralis"
 import { ethers } from "ethers"
-import nftAbi from "../constants/BasicNft.json"
+import nftAbi from "../constants/Nft.json"
 import nftMarketplaceAbi from "../constants/NftMarketplace.json"
 import networkMapping from "../constants/networkMapping.json"
 import { useEffect, useState } from "react"
 
 export default function Home() {
     const { chainId, account, isWeb3Enabled } = useMoralis()
+
     const chainString = chainId ? parseInt(chainId).toString() : "43113"
     const marketplaceAddress = networkMapping[chainString].NftMarketplace[0]
     const dispatch = useNotification()

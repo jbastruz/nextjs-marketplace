@@ -15,6 +15,9 @@ export default function Header() {
                 <Link href="/graphExample">
                     <a className="mr-4 p-6">graphExample</a>
                 </Link>
+                <Link href="/Mint">
+                    <a className="mr-4 p-6">Mint</a>
+                </Link>
                 <ConnectButton />
             </div>
         </nav>
