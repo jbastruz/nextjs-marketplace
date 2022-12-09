@@ -118,7 +118,7 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
                         <Card
                             title={tokenName}
                             description={tokenDescription}
-                            // il faut trouver un moyen de ne pas faire planter le code si l'info manque
+                            //il faut trouver un moyen de ne pas faire planter le code si l'info manque
                             tooltipText={
                                 tokenAttributes[3].trait_type + ": " + tokenAttributes[3].value
                             }
