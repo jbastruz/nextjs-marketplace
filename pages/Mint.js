@@ -5,7 +5,7 @@ import { useNotification } from "web3uikit"
 import nftabi from "../constants/Nft.json"
 
 //il suffit de changer ce truc la pour que la page se mette à jour sur le bon NFT
-const nftAddress = "0x3a2AB2DEB7A380A3285ea182935d4507E7203AAC"
+const nftAddress = "0xF75011cE85280CA4B15D972bE578175FDb01B095"
 
 function App() {
     const [error, setError] = useState("")
