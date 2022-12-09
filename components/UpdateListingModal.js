@@ -52,7 +52,7 @@ export default function UpdateListingModal({
             }}
         >
             <Input
-                label="Update listing price in L1 Currency (ETH)"
+                label="Update listing price in L1 Currency (AVAX)"
                 name="New listing price"
                 type="number"
                 onChange={(event) => {

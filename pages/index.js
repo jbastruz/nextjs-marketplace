@@ -1,10 +1,9 @@
 import styles from "../styles/Home.module.css"
-import { useMoralisQuery, useMoralis } from "react-moralis"
+import { useMoralis } from "react-moralis"
 import NFTBox from "../components/NFTBox"
 import networkMapping from "../constants/networkMapping.json"
 import GET_ACTIVE_ITEMS from "../constants/subgraphQueries"
 import { useQuery } from "@apollo/client"
-import { Card, useNotification, NFTBalance } from "web3uikit"
 
 export default function Home() {
     const { isWeb3Enabled, chainId } = useMoralis()
@@ -16,10 +15,6 @@ export default function Home() {
     return (
         <div className="container mx-auto">
             <h1 className="py-4 px-4 font-bold text-2xl">Recently Listed</h1>
-            <NFTBalance
-                address="0x8bD67Fb2A4112E94f5d54eDCDd239246c7ec30f7"
-                chain="avalanche testnet"
-            />
             <div className="flex flex-wrap">
                 {isWeb3Enabled ? (
                     loading || !listedNfts ? (

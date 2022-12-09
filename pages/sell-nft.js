@@ -122,7 +122,7 @@ export default function Home() {
                         key: "tokenId",
                     },
                     {
-                        name: "Price (in ETH)",
+                        name: "Price (in AVAX)",
                         type: "number",
                         value: "",
                         key: "price",

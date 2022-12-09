@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react"
 import { ethers } from "ethers"
 import { useMoralis, useWeb3Contract } from "react-moralis"
+import { useNotification } from "web3uikit"
 import nftabi from "../constants/Nft.json"
+
+//il suffit de changer ce truc la pour que la page se mette à jour sur le bon NFT
 const nftAddress = "0x3a2AB2DEB7A380A3285ea182935d4507E7203AAC"
 
 function App() {
     const [error, setError] = useState("")
+    const dispatch = useNotification()
     const [data, setData] = useState({})
     const { account } = useMoralis()
     const { runContractFunction: getContractURI } = useWeb3Contract({
@@ -52,8 +56,20 @@ function App() {
             try {
                 const transaction = await contract.mint(overrides)
                 console.log(transaction)
+                dispatch({
+                    type: "success",
+                    message: "Jeu acheté",
+                    title: "Achat Finalisé: ",
+                    position: "topR",
+                })
                 await transaction.wait()
                 fetchData()
+                dispatch({
+                    type: "success",
+                    message: " Jeu acheté",
+                    title: "Achat Finalisé: ",
+                    position: "topR",
+                })
             } catch (err) {
                 setError(err.message)
             }
