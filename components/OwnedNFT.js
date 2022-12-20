@@ -68,14 +68,7 @@ export default function OwnedNFT() {
                 const imageURI = tokenMetadata.image
                 const imageURIURL = imageURI.replace("ipfs://", "https://ipfs.io/ipfs/")
 
-                listedNftsOwned.push(
-                    new nft()
-                    // tokenMetadata.name,
-                    // tokenMetadata.description,
-                    // imageURIURL,
-                    // tokenMetadata.attributes,
-                    // i
-                )
+                listedNftsOwned.push(new nft())
 
                 listedNftsOwned[i].name = tokenMetadata.name
                 listedNftsOwned[i].image = imageURIURL
