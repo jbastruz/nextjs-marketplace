@@ -5,18 +5,19 @@ import nftAbi from "../constants/Nft.json"
 import Image from "next/image"
 import { Card, useNotification, CryptoLogos } from "web3uikit"
 import { ethers } from "ethers"
+import { validate } from "graphql"
 
 const nftAddress_old = "0x3a2AB2DEB7A380A3285ea182935d4507E7203AAC"
 const nftAddress = "0xF75011cE85280CA4B15D972bE578175FDb01B095"
 
 export default function OwnedNFT() {
-    const [Balance, setBalance] = useState("")
+    //const [Balance, setBalance] = useState("")
     const { account, isWeb3Enabled } = useMoralis()
     const [ImageURIURL, setImageURI] = useState("")
-    const [TokenId, setTokenId] = useState({})
-    const [tokenName, setTokenName] = useState({})
-    const [tokenDescription, setTokenDescription] = useState({})
-    const [tokenAttributes, setTokenAttributes] = useState({})
+    const [TokenId, setTokenId] = useState("")
+    const [tokenName, setTokenName] = useState("")
+    const [tokenDescription, setTokenDescription] = useState("")
+    const [tokenAttributes, setTokenAttributes] = useState("")
 
     var nft = function () {
         ;(this.name = ""),
@@ -25,24 +26,35 @@ export default function OwnedNFT() {
             (this.attribute = ""),
             (this.tokenId = "")
     }
+    var nft = function (_name, _description, _image, _attribute, _tokenId) {
+        ;(this.name = _name),
+            (this.description = _description),
+            (this.image = _image),
+            (this.attribute = _attribute),
+            (this.tokenId = _tokenId)
+    }
     var listedNftsOwned = []
 
-    useEffect(() => {
-        if (isWeb3Enabled) {
-            ListNfts()
-            //console.log(ListNfts())
+    function checkUndefined(_val) {
+        if (_val.name != undefined) {
+            return _val
         }
-    }, [isWeb3Enabled])
+    }
 
     async function ListNfts() {
+        //console.log(typeof window.ethereum !== "undefined")
         if (typeof window.ethereum !== "undefined") {
             const provider = new ethers.providers.Web3Provider(window.ethereum)
             const contract = new ethers.Contract(nftAddress, nftAbi, provider)
-
             const temp = parseInt(await contract.balanceOf(account))
-            setBalance(parseInt(temp, 16))
+            //console.log(temp)
+            //console.log(`parseInt : ${parseInt(temp, 16)}`)
+            const Balance = parseInt(temp, 16)
+            //setBalance(parseInt(temp, 16))
+            //console.log(Balance)
 
             for (let i = 0; i < Balance; i++) {
+                console.log(i)
                 const tokenId = await contract.tokenOfOwnerByIndex(account, i)
                 let tokenMetadataURI = await contract.getTokenURI(tokenId)
                 if (tokenMetadataURI.startsWith("ipfs://")) {
@@ -53,10 +65,17 @@ export default function OwnedNFT() {
                 )
                 //console.log(tokenMetadata, i)
 
-                await listedNftsOwned.push(new nft())
-
                 const imageURI = tokenMetadata.image
                 const imageURIURL = imageURI.replace("ipfs://", "https://ipfs.io/ipfs/")
+
+                listedNftsOwned.push(
+                    new nft()
+                    // tokenMetadata.name,
+                    // tokenMetadata.description,
+                    // imageURIURL,
+                    // tokenMetadata.attributes,
+                    // i
+                )
 
                 listedNftsOwned[i].name = tokenMetadata.name
                 listedNftsOwned[i].image = imageURIURL
@@ -64,49 +83,69 @@ export default function OwnedNFT() {
                 listedNftsOwned[i].attribute = tokenMetadata.attributes
                 listedNftsOwned[i].description = tokenMetadata.description
 
-                setImageURI(listedNftsOwned[i].image)
-                setTokenName(listedNftsOwned[i].name)
-                setTokenDescription(listedNftsOwned[i].description)
-                setTokenAttributes(listedNftsOwned[i].attribute)
-                setTokenId(listedNftsOwned[i].tokenId)
+                setImageURI(listedNftsOwned.image)
+                setTokenName(listedNftsOwned.name)
+                setTokenDescription(listedNftsOwned.description)
+                setTokenAttributes(listedNftsOwned.attribute)
+                setTokenId(listedNftsOwned.tokenId)
             }
-            console.log(listedNftsOwned)
         }
+        return listedNftsOwned.filter(checkUndefined)
     }
-    return (
-        <div>
-            <div>
-                {ImageURIURL ? (
-                    <div>
-                        <Card
-                            title={tokenName}
-                            description={tokenDescription}
-                            //il faut trouver un moyen de ne pas faire planter le code si l'info manque
-                            tooltipText={
-                                tokenAttributes[3].trait_type + ": " + tokenAttributes[3].value
-                            }
-                            //onClick={handleCardClick}
-                        >
-                            <div className="p-4">
-                                <div className="flex flex-col items-end gap-2">
-                                    <div>#{TokenId}</div>
-                                    {/* <div className="italic text-sm">
-                                        Owned by {formattedSellerAddress}
-                                    </div> */}
-                                    <Image
-                                        loader={() => ImageURIURL}
-                                        src={ImageURIURL}
-                                        height="200"
-                                        width="400"
-                                    />
-                                </div>
-                            </div>
-                        </Card>
-                    </div>
-                ) : (
-                    <div>Loading...</div>
-                )}
-            </div>
-        </div>
-    )
+
+    useEffect(() => {
+        if (isWeb3Enabled) {
+            ListNfts().then(console.log)
+            console.log(tokenName)
+        }
+    }, [isWeb3Enabled])
+
+    // isWeb3Enabled ? (
+    //     !listedNftsOwned ? (
+    //         <div>Loading...</div>
+    //     ) : (
+    //         listedNftsOwned.map((nft) => {
+    //             console.log(nft)
+    //             const { image, name, description, tokenId, attribute } = nft
+    //             return (
+    //                 <div>
+    //                     <div>
+    //                         {image ? (
+    //                             <div>
+    //                                 <Card
+    //                                     title={name}
+    //                                     description={description}
+    //                                     //il faut trouver un moyen de ne pas faire planter le code si l'info manque
+    //                                     tooltipText={
+    //                                         attribute[3].trait_type + ": " + attribute[3].value
+    //                                     }
+    //                                     //onClick={handleCardClick}
+    //                                 >
+    //                                     <div className="p-4">
+    //                                         <div className="flex flex-col items-end gap-2">
+    //                                             <div>#{tokenId}</div>
+    //                                             {/* <div className="italic text-sm">
+    //                                 Owned by {formattedSellerAddress}
+    //                             </div> */}
+    //                                             <Image
+    //                                                 loader={() => image}
+    //                                                 src={image}
+    //                                                 height="200"
+    //                                                 width="400"
+    //                                             />
+    //                                         </div>
+    //                                     </div>
+    //                                 </Card>
+    //                             </div>
+    //                         ) : (
+    //                             <div>Loading...</div>
+    //                         )}
+    //                     </div>
+    //                 </div>
+    //             )
+    //         })
+    //     )
+    // ) : (
+    //     <div>Web3 Currently Not Enabled</div>
+    // )
 }
