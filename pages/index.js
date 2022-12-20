@@ -11,7 +11,7 @@ export default function Home() {
     const marketplaceAddress = networkMapping[chainString].NftMarketplace[0]
 
     const { loading, error, data: listedNfts } = useQuery(GET_ACTIVE_ITEMS)
-
+    console.log(listedNfts)
     return (
         <div className="container mx-auto">
             <h1 className="py-4 px-4 font-bold text-2xl">Recently Listed</h1>
@@ -21,7 +21,7 @@ export default function Home() {
                         <div>Loading...</div>
                     ) : (
                         listedNfts.activeItems.map((nft) => {
-                            console.log(nft)
+                            //console.log(nft)
                             const { price, nftAddress, tokenId, seller } = nft
                             return (
                                 <NFTBox

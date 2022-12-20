@@ -6,6 +6,7 @@ import Image from "next/image"
 import { Card, useNotification, CryptoLogos } from "web3uikit"
 import { ethers } from "ethers"
 import { validate } from "graphql"
+import { list } from "postcss"
 
 const nftAddress_old = "0x3a2AB2DEB7A380A3285ea182935d4507E7203AAC"
 const nftAddress = "0xF75011cE85280CA4B15D972bE578175FDb01B095"
@@ -15,6 +16,7 @@ export default function OwnedNFT() {
     const { account, isWeb3Enabled } = useMoralis()
     const [ImageURIURL, setImageURI] = useState("")
     const [test, setTest] = useState([])
+    const [listedNftsOwned, setOwned] = useState([])
     const [TokenId, setTokenId] = useState("")
     const [tokenName, setTokenName] = useState("")
     const [tokenDescription, setTokenDescription] = useState("")
@@ -34,7 +36,7 @@ export default function OwnedNFT() {
             (this.attribute = _attribute),
             (this.tokenId = _tokenId)
     }
-    var listedNftsOwned = []
+    var _listedNftsOwned = []
 
     function checkUndefined(_val) {
         if (_val.name != undefined) {
@@ -69,81 +71,83 @@ export default function OwnedNFT() {
                 const imageURI = tokenMetadata.image
                 const imageURIURL = imageURI.replace("ipfs://", "https://ipfs.io/ipfs/")
 
-                listedNftsOwned.push(new nft())
+                _listedNftsOwned.push(new nft())
 
-                listedNftsOwned[i].name = tokenMetadata.name
-                listedNftsOwned[i].image = imageURIURL
-                listedNftsOwned[i].tokenId = i
-                listedNftsOwned[i].attribute = tokenMetadata.attributes
-                listedNftsOwned[i].description = tokenMetadata.description
+                _listedNftsOwned[i].name = tokenMetadata.name
+                _listedNftsOwned[i].image = imageURIURL
+                _listedNftsOwned[i].tokenId = i
+                _listedNftsOwned[i].attribute = tokenMetadata.attributes
+                _listedNftsOwned[i].description = tokenMetadata.description
 
-                setImageURI(listedNftsOwned.image)
-                setTokenName(listedNftsOwned.name)
-                setTokenDescription(listedNftsOwned.description)
-                setTokenAttributes(listedNftsOwned.attribute)
-                setTokenId(listedNftsOwned.tokenId)
+                setImageURI(_listedNftsOwned.image)
+                setTokenName(_listedNftsOwned.name)
+                setTokenDescription(_listedNftsOwned.description)
+                setTokenAttributes(_listedNftsOwned.attribute)
+                setTokenId(_listedNftsOwned.tokenId)
             }
         }
-        return listedNftsOwned.filter(checkUndefined)
+
+        return _listedNftsOwned.filter(checkUndefined)
+    }
+
+    async function updateOwned() {
+        const result = await ListNfts()
+        setOwned(result)
     }
 
     useEffect(() => {
         if (isWeb3Enabled) {
-            const res = async () => {
-                setTest(await ListNfts())
-            }
-            res()
-            ListNfts().then(console.log)
-            //console.log(test[1])
+            //updateOwned()
+            ListNfts().then((data) => setOwned(data))
         }
     }, [isWeb3Enabled])
 
-    // isWeb3Enabled ? (
-    //     !listedNftsOwned ? (
-    //         <div>Loading...</div>
-    //     ) : (
-    //         listedNftsOwned.map((nft) => {
-    //             console.log(nft)
-    //             const { image, name, description, tokenId, attribute } = nft
-    //             return (
-    //                 <div>
-    //                     <div>
-    //                         {image ? (
-    //                             <div>
-    //                                 <Card
-    //                                     title={name}
-    //                                     description={description}
-    //                                     //il faut trouver un moyen de ne pas faire planter le code si l'info manque
-    //                                     tooltipText={
-    //                                         attribute[3].trait_type + ": " + attribute[3].value
-    //                                     }
-    //                                     //onClick={handleCardClick}
-    //                                 >
-    //                                     <div className="p-4">
-    //                                         <div className="flex flex-col items-end gap-2">
-    //                                             <div>#{tokenId}</div>
-    //                                             {/* <div className="italic text-sm">
-    //                                 Owned by {formattedSellerAddress}
-    //                             </div> */}
-    //                                             <Image
-    //                                                 loader={() => image}
-    //                                                 src={image}
-    //                                                 height="200"
-    //                                                 width="400"
-    //                                             />
-    //                                         </div>
-    //                                     </div>
-    //                                 </Card>
-    //                             </div>
-    //                         ) : (
-    //                             <div>Loading...</div>
-    //                         )}
-    //                     </div>
-    //                 </div>
-    //             )
-    //         })
-    //     )
-    // ) : (
-    //     <div>Web3 Currently Not Enabled</div>
-    // )
+    //console.log(listedNftsOwned)
+    isWeb3Enabled ? (
+        !(listedNftsOwned.length > 0) ? (
+            <div>Loading...</div>
+        ) : (
+            (console.log(listedNftsOwned),
+            listedNftsOwned.map((nft) => {
+                //console.log(nft)
+                const { image, name, description, tokenId, attribute } = nft
+                //console.log(image)
+                return (
+                    <div>
+                        <div>
+                            {image ? (
+                                <div>
+                                    <Card
+                                        title={name}
+                                        description={description}
+                                        tooltipText={
+                                            attribute[3].trait_type + ": " + attribute[3].value
+                                        }
+                                        //onClick={handleCardClick}
+                                    >
+                                        <div className="p-4">
+                                            <div className="flex flex-col items-end gap-2">
+                                                <div>#{tokenId}</div>
+
+                                                <Image
+                                                    loader={() => image}
+                                                    src={image}
+                                                    height="200"
+                                                    width="400"
+                                                />
+                                            </div>
+                                        </div>
+                                    </Card>
+                                </div>
+                            ) : (
+                                <div>Loading...</div>
+                            )}
+                        </div>
+                    </div>
+                )
+            }))
+        )
+    ) : (
+        <div>Web3 Currently Not Enabled</div>
+    )
 }
