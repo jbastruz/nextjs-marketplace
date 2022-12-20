@@ -14,6 +14,7 @@ export default function OwnedNFT() {
     //const [Balance, setBalance] = useState("")
     const { account, isWeb3Enabled } = useMoralis()
     const [ImageURIURL, setImageURI] = useState("")
+    const [test, setTest] = useState([])
     const [TokenId, setTokenId] = useState("")
     const [tokenName, setTokenName] = useState("")
     const [tokenDescription, setTokenDescription] = useState("")
@@ -54,7 +55,7 @@ export default function OwnedNFT() {
             //console.log(Balance)
 
             for (let i = 0; i < Balance; i++) {
-                console.log(i)
+                //console.log(i)
                 const tokenId = await contract.tokenOfOwnerByIndex(account, i)
                 let tokenMetadataURI = await contract.getTokenURI(tokenId)
                 if (tokenMetadataURI.startsWith("ipfs://")) {
@@ -88,8 +89,12 @@ export default function OwnedNFT() {
 
     useEffect(() => {
         if (isWeb3Enabled) {
+            const res = async () => {
+                setTest(await ListNfts())
+            }
+            res()
             ListNfts().then(console.log)
-            console.log(tokenName)
+            console.log(test[1])
         }
     }, [isWeb3Enabled])
 
