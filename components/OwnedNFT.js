@@ -94,7 +94,7 @@ export default function OwnedNFT() {
             }
             res()
             ListNfts().then(console.log)
-            console.log(test[1])
+            //console.log(test[1])
         }
     }, [isWeb3Enabled])
 
