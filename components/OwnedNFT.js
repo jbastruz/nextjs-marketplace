@@ -38,11 +38,11 @@ export default function OwnedNFT() {
     }
     var _listedNftsOwned = []
 
-    // function checkUndefined(_val) {
-    //     if (_val.name != undefined) {
-    //         return _val
-    //     }
-    // }
+    function checkUndefined(_val) {
+        if (_val.name != undefined) {
+            return _val
+        }
+    }
 
     async function ListNfts() {
         //console.log(typeof window.ethereum !== "undefined")
@@ -96,9 +96,15 @@ export default function OwnedNFT() {
         }
     }, [isWeb3Enabled])
 
+    const handleClick = () => {
+        // Exécution de du code JavaScript lorsque la fonction est appelée
+        console.log(listedNftsOwned)
+    }
+
     return (
         <div className="container mx-auto">
             <h1 className="py-4 px-4 font-bold text-2xl">Recently Listed</h1>
+            <button onClick={handleClick}>Click me</button>
         </div>
     )
     //     <div className="flex flex-wrap">
