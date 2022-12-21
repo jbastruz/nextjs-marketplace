@@ -1,15 +1,10 @@
 import { useState, useEffect } from "react"
-import { useWeb3Contract, useMoralis } from "react-moralis"
-import { Button } from "web3uikit"
-import nftMarketplaceAbi from "../constants/NftMarketplace.json"
+import { useMoralis } from "react-moralis"
 import nftAbi from "../constants/Nft.json"
 import Image from "next/image"
-import { Card, useNotification, CryptoLogos } from "web3uikit"
+import { Card } from "web3uikit"
 import { ethers } from "ethers"
-import { validate } from "graphql"
-import { list } from "postcss"
 
-const nftAddress_old = "0x3a2AB2DEB7A380A3285ea182935d4507E7203AAC"
 const nftAddress = "0xF75011cE85280CA4B15D972bE578175FDb01B095"
 
 export default function OwnedNFT() {
