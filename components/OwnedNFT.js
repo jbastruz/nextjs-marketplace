@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useWeb3Contract, useMoralis } from "react-moralis"
+import { Button } from "web3uikit"
 import nftMarketplaceAbi from "../constants/NftMarketplace.json"
 import nftAbi from "../constants/Nft.json"
 import Image from "next/image"
@@ -104,58 +105,54 @@ export default function OwnedNFT() {
     return (
         <div className="container mx-auto">
             <h1 className="py-4 px-4 font-bold text-2xl">Recently Listed</h1>
-            <button onClick={handleClick}>Click me</button>
+            <div className="flex flex-wrap">
+                {isWeb3Enabled ? (
+                    !(listedNftsOwned.length > 0) ? (
+                        <div>Loading...</div>
+                    ) : (
+                        listedNftsOwned.map((nft) => {
+                            //console.log(nft)
+                            const { image, attribute, name, description, tokenId } = nft
+                            return (
+                                <div>
+                                    <div>
+                                        {image ? (
+                                            <div>
+                                                <Card
+                                                    title={name}
+                                                    description={description}
+                                                    tooltipText={
+                                                        attribute[3].trait_type +
+                                                        ": " +
+                                                        attribute[3].value
+                                                    }
+                                                    //onClick={handleCardClick}
+                                                >
+                                                    <div className="p-4">
+                                                        <div className="flex flex-col items-end gap-2">
+                                                            <div>#{tokenId}</div>
+                                                            <Image
+                                                                loader={() => image}
+                                                                src={image}
+                                                                height="200"
+                                                                width="400"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </Card>
+                                            </div>
+                                        ) : (
+                                            <div>Loading...</div>
+                                        )}
+                                    </div>
+                                </div>
+                            )
+                        })
+                    )
+                ) : (
+                    <div>Web3 Currently Not Enabled</div>
+                )}
+            </div>
         </div>
     )
-    //     <div className="flex flex-wrap">
-    //         {isWeb3Enabled ? (
-    //             !(listedNftsOwned.length > 0) ? (
-    //                 <div>Loading...</div>
-    //             ) : (
-    //                 listedNftsOwned.map((nft) => {
-    //                     //console.log(nft)
-    //                     const { image, name, description, tokenId, attribute } = nft
-    //                     //console.log(image)
-    //                     return (
-    //                         <div>
-    //                             <div>
-    //                                 {image ? (
-    //                                     <div>
-    //                                         <Card
-    //                                             title={name}
-    //                                             description={description}
-    //                                             tooltipText={
-    //                                                 attribute[3].trait_type +
-    //                                                 ": " +
-    //                                                 attribute[3].value
-    //                                             }
-    //                                             //onClick={handleCardClick}
-    //                                         >
-    //                                             <div className="p-4">
-    //                                                 <div className="flex flex-col items-end gap-2">
-    //                                                     <div>#{tokenId}</div>
-
-    //                                                     <Image
-    //                                                         loader={() => image}
-    //                                                         src={image}
-    //                                                         height="200"
-    //                                                         width="400"
-    //                                                     />
-    //                                                 </div>
-    //                                             </div>
-    //                                         </Card>
-    //                                     </div>
-    //                                 ) : (
-    //                                     <div>Loading...</div>
-    //                                 )}
-    //                             </div>
-    //                         </div>
-    //                     )
-    //                 }))
-    //             )
-    //         ) : (
-    //             <div>Web3 Currently Not Enabled</div>
-    //         )}
-    //     </div>
-    // </div>
 }
