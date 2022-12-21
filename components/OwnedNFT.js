@@ -38,11 +38,11 @@ export default function OwnedNFT() {
     }
     var _listedNftsOwned = []
 
-    function checkUndefined(_val) {
-        if (_val.name != undefined) {
-            return _val
-        }
-    }
+    // function checkUndefined(_val) {
+    //     if (_val.name != undefined) {
+    //         return _val
+    //     }
+    // }
 
     async function ListNfts() {
         //console.log(typeof window.ethereum !== "undefined")
@@ -90,64 +90,66 @@ export default function OwnedNFT() {
         return _listedNftsOwned.filter(checkUndefined)
     }
 
-    async function updateOwned() {
-        const result = await ListNfts()
-        setOwned(result)
-    }
-
     useEffect(() => {
         if (isWeb3Enabled) {
-            //updateOwned()
             ListNfts().then((data) => setOwned(data))
         }
     }, [isWeb3Enabled])
 
-    //console.log(listedNftsOwned)
-    isWeb3Enabled ? (
-        !(listedNftsOwned.length > 0) ? (
-            <div>Loading...</div>
-        ) : (
-            (console.log(listedNftsOwned),
-            listedNftsOwned.map((nft) => {
-                //console.log(nft)
-                const { image, name, description, tokenId, attribute } = nft
-                //console.log(image)
-                return (
-                    <div>
-                        <div>
-                            {image ? (
-                                <div>
-                                    <Card
-                                        title={name}
-                                        description={description}
-                                        tooltipText={
-                                            attribute[3].trait_type + ": " + attribute[3].value
-                                        }
-                                        //onClick={handleCardClick}
-                                    >
-                                        <div className="p-4">
-                                            <div className="flex flex-col items-end gap-2">
-                                                <div>#{tokenId}</div>
-
-                                                <Image
-                                                    loader={() => image}
-                                                    src={image}
-                                                    height="200"
-                                                    width="400"
-                                                />
-                                            </div>
-                                        </div>
-                                    </Card>
-                                </div>
-                            ) : (
-                                <div>Loading...</div>
-                            )}
-                        </div>
-                    </div>
-                )
-            }))
-        )
-    ) : (
-        <div>Web3 Currently Not Enabled</div>
+    return (
+        <div className="container mx-auto">
+            <h1 className="py-4 px-4 font-bold text-2xl">Recently Listed</h1>
+        </div>
     )
+    //     <div className="flex flex-wrap">
+    //         {isWeb3Enabled ? (
+    //             !(listedNftsOwned.length > 0) ? (
+    //                 <div>Loading...</div>
+    //             ) : (
+    //                 listedNftsOwned.map((nft) => {
+    //                     //console.log(nft)
+    //                     const { image, name, description, tokenId, attribute } = nft
+    //                     //console.log(image)
+    //                     return (
+    //                         <div>
+    //                             <div>
+    //                                 {image ? (
+    //                                     <div>
+    //                                         <Card
+    //                                             title={name}
+    //                                             description={description}
+    //                                             tooltipText={
+    //                                                 attribute[3].trait_type +
+    //                                                 ": " +
+    //                                                 attribute[3].value
+    //                                             }
+    //                                             //onClick={handleCardClick}
+    //                                         >
+    //                                             <div className="p-4">
+    //                                                 <div className="flex flex-col items-end gap-2">
+    //                                                     <div>#{tokenId}</div>
+
+    //                                                     <Image
+    //                                                         loader={() => image}
+    //                                                         src={image}
+    //                                                         height="200"
+    //                                                         width="400"
+    //                                                     />
+    //                                                 </div>
+    //                                             </div>
+    //                                         </Card>
+    //                                     </div>
+    //                                 ) : (
+    //                                     <div>Loading...</div>
+    //                                 )}
+    //                             </div>
+    //                         </div>
+    //                     )
+    //                 }))
+    //             )
+    //         ) : (
+    //             <div>Web3 Currently Not Enabled</div>
+    //         )}
+    //     </div>
+    // </div>
 }
