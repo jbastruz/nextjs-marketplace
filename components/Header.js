@@ -13,11 +13,14 @@ export default function Header() {
                     <a className="mr-4 p-6">Sell NFT</a>
                 </Link>
                 <Link href="/graphExample">
-                    <a className="mr-4 p-6">graphExample</a>
+                    <a className="mr-4 p-6">OwnedNFT</a>
                 </Link>
                 <Link href="/Mint">
                     <a className="mr-4 p-6">Mint</a>
                 </Link>
+                {/* <Link href="/create">
+                    <a className="mr-4 p-6">Create</a>
+                </Link> */}
                 <ConnectButton />
             </div>
         </nav>

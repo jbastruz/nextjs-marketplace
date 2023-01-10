@@ -4,6 +4,7 @@ import NFTBox from "../components/NFTBox"
 import networkMapping from "../constants/networkMapping.json"
 import GET_ACTIVE_ITEMS from "../constants/subgraphQueries"
 import { useQuery } from "@apollo/client"
+import { Loading } from "web3uikit"
 
 export default function Home() {
     const { isWeb3Enabled, chainId } = useMoralis()
@@ -18,7 +19,21 @@ export default function Home() {
             <div className="flex flex-wrap">
                 {isWeb3Enabled ? (
                     loading || !listedNfts ? (
-                        <div>Loading...</div>
+                        <div
+                            style={{
+                                backgroundColor: "#ECECFE",
+                                borderRadius: "8px",
+                                padding: "20px",
+                            }}
+                        >
+                            <Loading
+                                fontSize={12}
+                                size={12}
+                                spinnerColor="#2E7DAF"
+                                spinnerType="wave"
+                                text="Loading..."
+                            />
+                        </div>
                     ) : (
                         listedNfts.activeItems.map((nft) => {
                             //console.log(nft)

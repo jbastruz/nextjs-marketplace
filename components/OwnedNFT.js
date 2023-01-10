@@ -2,14 +2,14 @@ import { useState, useEffect } from "react"
 import { useMoralis } from "react-moralis"
 import nftAbi from "../constants/Nft.json"
 import Image from "next/image"
-import { Card } from "web3uikit"
+import { Card, Loading } from "web3uikit"
 import { ethers } from "ethers"
 
 const nftAddress = "0xF75011cE85280CA4B15D972bE578175FDb01B095"
 
 export default function OwnedNFT() {
     //const [Balance, setBalance] = useState("")
-    const { account, isWeb3Enabled } = useMoralis()
+    const { account, isWeb3Enabled, IPFSInput } = useMoralis()
     const [ImageURIURL, setImageURI] = useState("")
     const [test, setTest] = useState([])
     const [listedNftsOwned, setOwned] = useState([])
@@ -137,7 +137,21 @@ export default function OwnedNFT() {
                                                 </Card>
                                             </div>
                                         ) : (
-                                            <div>Loading...</div>
+                                            <div
+                                                style={{
+                                                    backgroundColor: "#ECECFE",
+                                                    borderRadius: "8px",
+                                                    padding: "20px",
+                                                }}
+                                            >
+                                                <Loading
+                                                    fontSize={12}
+                                                    size={12}
+                                                    spinnerColor="#2E7DAF"
+                                                    spinnerType="wave"
+                                                    text="Loading..."
+                                                />
+                                            </div>
                                         )}
                                     </div>
                                 </div>

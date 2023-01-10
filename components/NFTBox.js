@@ -3,7 +3,7 @@ import { useWeb3Contract, useMoralis } from "react-moralis"
 import nftMarketplaceAbi from "../constants/NftMarketplace.json"
 import nftAbi from "../constants/Nft.json"
 import Image from "next/image"
-import { Card, useNotification, CryptoLogos } from "web3uikit"
+import { Card, useNotification, CryptoLogos, Loading } from "web3uikit"
 import { ethers } from "ethers"
 import UpdateListingModal from "./UpdateListingModal"
 
@@ -146,7 +146,15 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
                         </Card>
                     </div>
                 ) : (
-                    <div>Loading...</div>
+                    <div
+                        style={{
+                            backgroundColor: "#FFFFFF",
+                            borderRadius: "8px",
+                            padding: "20px",
+                        }}
+                    >
+                        <Loading spinnerColor="#2E7DAF" text="Loading...." />
+                    </div>
                 )}
             </div>
         </div>
